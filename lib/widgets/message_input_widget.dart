@@ -205,22 +205,20 @@ class _MessageInputWidgetState extends State<MessageInputWidget>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        padding: const EdgeInsets.all(AppSpacing.md),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              blurRadius: 8,
-              offset: const Offset(0, -2),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+    return Container(
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.1),
+            blurRadius: 8,
+            offset: const Offset(0, -2),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
           if (_selectedImage != null) ...[
             Container(
               margin: const EdgeInsets.only(bottom: AppSpacing.md),
@@ -447,8 +445,7 @@ class _MessageInputWidgetState extends State<MessageInputWidget>
               ),
             ],
           ),
-          ],
-        ),
+        ],
       ),
     );
   }

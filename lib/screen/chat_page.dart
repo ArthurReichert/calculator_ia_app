@@ -27,14 +27,12 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: _buildAppBar(),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(child: _buildMessagesArea()),
-            if (_isLoading) _buildLoadingArea(),
-            _buildInputArea(),
-          ],
-        ),
+      body: Column(
+        children: [
+          _buildMessagesArea(),
+          if (_isLoading) _buildLoadingArea(),
+          _buildInputArea(),
+        ],
       ),
     );
   }
@@ -126,103 +124,109 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget _buildMessagesArea() {
-    return _messages.isEmpty
-        ? _buildEmptyState()
-        : ListView.builder(
-          controller: _scrollController,
-          padding: const EdgeInsets.all(AppSpacing.md),
-          itemCount: _messages.length,
-          itemBuilder: (context, index) {
-            return ChatMessageWidget(message: _messages[index]);
-          },
-        );
+    return Expanded(
+      child:
+          _messages.isEmpty
+              ? _buildEmptyState()
+              : ListView.builder(
+                controller: _scrollController,
+                padding: const EdgeInsets.all(AppSpacing.md),
+                itemCount: _messages.length,
+                itemBuilder: (context, index) {
+                  return ChatMessageWidget(message: _messages[index]);
+                },
+              ),
+    );
   }
 
   Widget _buildEmptyState() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(AppSpacing.md),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(height: AppSpacing.xl),
-          Container(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(50),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: MediaQuery.of(context).size.height * 0.6,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(50),
+              ),
+              child: const Icon(
+                Icons.calculate,
+                size: 60,
+                color: AppColors.primary,
+              ),
             ),
-            child: const Icon(
-              Icons.calculate,
-              size: 60,
-              color: AppColors.primary,
+            const SizedBox(height: AppSpacing.md),
+            const Text(
+              'Bem-vindo à Calculadora IA',
+              style: AppTextStyles.heading,
+              textAlign: TextAlign.center,
             ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          const Text(
-            'Bem-vindo à Calculadora IA',
-            style: AppTextStyles.heading,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          const Text(
-            'Envie uma FOTO com cálculos matemáticos\ne nossa IA irá resolver para você!',
-            style: AppTextStyles.body,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: AppSpacing.md),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-            padding: const EdgeInsets.all(AppSpacing.md),
-            decoration: BoxDecoration(
-              color: AppColors.surface,
-              borderRadius: BorderRadius.circular(AppConstants.borderRadius),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+            const SizedBox(height: AppSpacing.sm),
+            const Text(
+              'Envie uma FOTO com cálculos matemáticos\ne nossa IA irá resolver para você!',
+              style: AppTextStyles.body,
+              textAlign: TextAlign.center,
             ),
-            child: const Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.photo_camera,
-                      color: AppColors.primary,
-                      size: 20,
-                    ),
-                    SizedBox(width: AppSpacing.sm),
-                    Flexible(
-                      child: Text(
-                        'Tire uma foto do cálculo',
-                        style: TextStyle(fontSize: 14),
+            const SizedBox(height: AppSpacing.md),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              padding: const EdgeInsets.all(AppSpacing.md),
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(AppConstants.borderRadius),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: const Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.photo_camera,
+                        color: AppColors.primary,
+                        size: 20,
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: AppSpacing.sm),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.upload, color: AppColors.primary, size: 20),
-                    SizedBox(width: AppSpacing.sm),
-                    Flexible(
-                      child: Text(
-                        'Ou escolha da galeria',
-                        style: TextStyle(fontSize: 14),
+                      SizedBox(width: AppSpacing.sm),
+                      Flexible(
+                        child: Text(
+                          'Tire uma foto do cálculo',
+                          style: TextStyle(fontSize: 14),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                  SizedBox(height: AppSpacing.sm),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.upload, color: AppColors.primary, size: 20),
+                      SizedBox(width: AppSpacing.sm),
+                      Flexible(
+                        child: Text(
+                          'Ou escolha da galeria',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: AppSpacing.xl),
-        ],
+          ],
+        ),
       ),
     );
   }
